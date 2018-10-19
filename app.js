@@ -1,10 +1,17 @@
 //listen for submit
 let loanForm = document.getElementById('loan-form');
 
-loanForm.addEventListener('submit', calculateResults);
- 
-function calculateResults(e) {
+loanForm.addEventListener('submit', (e)=>{
     e.preventDefault();
+    //hide results
+        document.querySelector('.results').style.display='none';
+    //show loader
+        document.getElementById('loading').style.display='block';
+
+    setTimeout(calculateResults, 2000);
+});
+ 
+function calculateResults() {
 
     const amount = document.getElementById('amount');
     const interest = document.getElementById('interest');
@@ -25,12 +32,44 @@ function calculateResults(e) {
         mounthlyPayment.value = monthly.toFixed(2);
         totalPayment.value = (monthly * calculatePayments).toFixed(2);
         totalInterst.value = ((monthly*calculatePayments)-principal).toFixed(2);
+
+         //show results
+         document.querySelector('.results').style.display='block';
+         //hide loader
+             document.getElementById('loading').style.display='none';
     } else{
-        console.log('Please check your number');
+        showError('Please check your number');
+        document.getElementById('loading').style.display='none';
+
     }
 
     //clear input value 
-    amount.value = '';
-    interest.value = '';
-    years.value = '';
+    amount.addEventListener('focus', (e)=> {
+        amount.value = '';
+    });
+    interest.addEventListener('focus', (e)=> {
+        interest.value = '';
+    });
+    years.addEventListener('focus', (e)=> {
+        years.value = '';
+    });
 } 
+
+function clearInput() {
+    
+}
+
+function showError(error) {
+    const errorDiv = document.createElement('div');
+    const card = document.querySelector('.card');
+    const heading=document.querySelector('.heading')
+    errorDiv.className = 'alert alert-danger';
+    errorDiv.appendChild(document.createTextNode(error));
+    card.insertBefore(errorDiv,heading);
+
+    setTimeout(clearError,3000);
+}
+
+function clearError() {
+    document.querySelector('.alert').remove();
+}
