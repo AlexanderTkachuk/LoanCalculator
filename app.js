@@ -29,4 +29,8 @@ function calculateResults(e) {
         console.log('Please check your number');
     }
 
+    //clear input value 
+    amount.value = '';
+    interest.value = '';
+    years.value = '';
 } 
